@@ -1,0 +1,22 @@
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+import * as dotenv from 'dotenv';
+dotenv.config();
+
+const apiKey = process.env.GEMINI_API_KEY;
+if (!apiKey) {
+    console.log("No GEMINI_API_KEY found");
+    process.exit(1);
+}
+
+const genAI = new GoogleGenerativeAI(apiKey);
+
+async function listModels() {
+    try {
+        const models = await genAI.getGenerativeModel({ model: "gemini-1.5-flash" }).generateContent("hello");
+        console.log("gemini-1.5-flash works:", models.response.text());
+    } catch (e) {
+        console.error("gemini-1.5-flash error:", e.message);
+    }
+}
+listModels();
